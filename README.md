@@ -8,10 +8,13 @@ back end flow controller (bef-c)xx
 
 Some Pseudo Test:
 
+<code>
 var flowController = new FlowController("..flow definition here..");
+
 var flowStartResult = flowController.Start("..data here..");
 
 Assert.IsTrue(flowStartResult.Successed);
+
 Assert.IsEqual(flowStartResult.CurrentFlowState == "expected state name like DraftState");
 
-
+</code>
