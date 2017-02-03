@@ -1,5 +1,5 @@
 # back-end-flow-controller
-back end flow controller (bef-c)xx
+back end flow controller (bef-c)
 
 ## Motivation
 - ability to design or view the application flow with a human readable way
