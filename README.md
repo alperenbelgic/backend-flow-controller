@@ -11,6 +11,8 @@ back end flow controller (bef-c)
 
 #### Test 1: Start a flow
 ```
+// this looks like how the api is consumed by consumer
+
 var flowController = new FlowController("..flow definition here..");
 
 var flowStartResult = flowController.Start("..application data here..");
@@ -18,4 +20,16 @@ var flowStartResult = flowController.Start("..application data here..");
 Assert.IsTrue(flowStartResult.Successed);
 
 Assert.IsEqual(flowStartResult.CurrentFlowState, "an expected state name like DraftState");
+
+var flowInstanceId = flowStartResult.FlowInstanceId;
+
+```
+
+```
+// this looks like how the next method will be processed in the FlowController
+
+var flowInstance = new FlowInstance("..flow definition here..", "");
+flowInstance.Next("an expected event name like Submit", "..event data here..");
+
+
 ```
