@@ -29,7 +29,9 @@ var flowInstanceId = flowStartResult.FlowInstanceId;
 // this looks like how the next method will be processed in the FlowController
 
 var flowInstance = new FlowInstance("..flow definition here..", "");
-flowInstance.Next("an expected event name like Submit", "..event data here..");
+var nextResult = flowInstance.Next("an expected event name like Submit", "..event data here..");
 
+Assert.IsTrue(nextResult.Successed);
+Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
 ```
