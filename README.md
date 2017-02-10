@@ -39,4 +39,4 @@ Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
 #### Test 3: Send an event to the flow and flow triggers an action
 
-#### Test 4: Send an event to the flow and flow triggers and action which writes changes flow data
+#### Test 4: Send an event to the flow and flow triggers an action which writes changes flow data
