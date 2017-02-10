@@ -37,6 +37,12 @@ Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
 ```
 
-#### Test 3: Send an event to the flow and flow triggers an action
+#### Test 3: Send an event to the flow and flow triggers an action (which is defined in flow definition)
 
-#### Test 4: Send an event to the flow and flow triggers an action which writes changes flow data
+#### Test 4: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
+
+#### Test 5: Action throws exception, roll back?, result?
+
+#### Test 6: Events and actions logs created?
+
+#### TEST 7: Validations exist? Proper state name? Next state's name exists?
