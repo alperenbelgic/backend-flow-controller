@@ -35,6 +35,40 @@ var nextResult = flowInstance.SendEvent("an expected event name like Submit", ".
 Assert.IsTrue(nextResult.Successed);
 Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
+
+var flowDefinition = new FlowDefinition()
+{
+  States = new List<State>()
+  {
+    new State()
+    {
+      Name = "State1",
+      Events = new List<Event>()
+      {
+		new Event()
+		{
+			Name = "Event1",
+			DestinationState = "State2"
+		}
+      }
+    },
+	new State()
+	{
+		Name = "State2"
+	}
+  }
+};
+
+var flowInstance = new FlowInstance()
+{
+ 	CurrentState = "State1",
+	FlowDefinition = flowDefinition
+};
+
+var result = flowInstance.SendEvent("Event1");
+
+Assert.IsTrue(result.Suceeded);
+Assert.IsEqual(flowInstance.CurrentState, "State2");
 ```
 
 #### Test 3: Send an event to the flow and flow triggers an action (which is defined in flow definition)
@@ -69,9 +103,6 @@ var flowInstance = new FlowInstance()
 
 var result = flowInstance.SendEvent("Event1");
 mockAction.Verify(action => action.Execute());
-
-
-// TODO:complete
 
 ```
 
