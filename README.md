@@ -39,7 +39,7 @@ Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
 #### Test 3: Send an event to the flow and flow triggers an action (which is defined in flow definition)
  ```
-var mockedAction = new Mock<IAction>();
+var mockAction = new Mock<IAction>();
 
 
 var flowDefinition = new FlowDefinition()
@@ -54,7 +54,7 @@ var flowDefinition = new FlowDefinition()
         Name = "Event1",
         Actions = new List<Action>()
         {	
-        	mockedAction.Object
+        	mockAction.Object
         }
       }
     }    
@@ -68,7 +68,7 @@ var flowInstance = new FlowInstance()
 };
 
 var result = flowInstance.SendEvent("Event1");
-mockedAction.Verify(action => action.Execute());
+mockAction.Verify(action => action.Execute());
 
 
 // TODO:complete
