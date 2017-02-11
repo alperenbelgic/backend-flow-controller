@@ -45,4 +45,4 @@ Assert.IsEqual(nextResult.CurrentState.Name == "..expected state name..");
 
 #### Test 6: Events and actions logs created?
 
-#### TEST 7: Validations exist? Proper state name? Next state's name exists?
+#### Test 7: Validations: Proper state name? Next state's name exists?
