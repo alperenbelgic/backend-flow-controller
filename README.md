@@ -9,23 +9,9 @@ backend flow controller (bfc)
 
 ## Some Pseudo Tests:
 
-#### Test 1: Start a flow
-```
-// this looks like how the api is consumed by consumer
 
-var flowController = new FlowController("..flow definition here..");
 
-var flowStartResult = flowController.Start("..application data here..");
-
-Assert.IsTrue(flowStartResult.Successed);
-
-Assert.IsEqual(flowStartResult.CurrentFlowState, "an expected state name like DraftState");
-
-var flowInstanceId = flowStartResult.FlowInstanceId;
-
-```
-
-#### Test 2: Send an event to the flow and flow changes its state.
+#### Test 1: Send an event to the flow and flow changes its state.
 ```
 
 var flowDefinition = new FlowDefinition()
@@ -63,7 +49,7 @@ Assert.IsTrue(result.Suceeded);
 Assert.IsEqual(flowInstance.CurrentState, "State2");
 ```
 
-#### Test 3: Send an event to the flow and flow triggers an action (which is defined in flow definition)
+#### Test 2: Send an event to the flow and flow triggers an action (which is defined in flow definition)
  ```
 var mockAction = new Mock<IAction>();
 
@@ -99,10 +85,11 @@ mockAction.Verify(action => action.Execute());
 ```
 
 
-#### Test 4: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
 
-#### Test 5: Action throws exception, roll back?, result?
+#### Test 3: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
 
-#### Test 6: Events and actions logs created?
+#### Test 4: Action throws exception, roll back?, result?
 
-#### Test 7: Validations: Proper state name? Next state's name exists?
+#### Test 5: Events and actions logs created?
+
+#### Test 6: Validations: Proper state name? Next state's name exists?
