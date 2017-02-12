@@ -85,12 +85,147 @@ mockAction.Verify(action => action.Execute());
 ```
 
 #### Test x: Action can read flow data
+ ```
+ public abstract class Action1 : IAction
+ {
+ 	public string Data1 { get; set; }
+ 
+ 	public override void Execute() 
+	{ 
+		// Data1 will be usable here
+	}
+ }
+ 
+var mockAction = new Mock<Action1>();
+
+dynamic flowData = new ExpandoObject();
+flowData.Data1 = "hello";
+
+var flowDefinition = new FlowDefinition()
+{
+  States = new List<State>()
+  {
+    new State()
+    {
+      Name = "State1",
+      Events = new List<Event>()
+      {
+        Name = "Event1",
+        Actions = new List<Action>()
+        {	
+        	mockAction.Object
+        }
+      }
+    }    
+  }
+};
+
+var flowInstance = new FlowInstance()
+{
+ 	CurrentState = "State1",
+	FlowDefinition = flowDefinition,
+	FlowData = flowData
+};
+
+var result = flowInstance.SendEvent("Event1");
+Assert.IsTrue(result.IsSuccessful);
+Assert.IsEqual("hello", mockAction.Object.Data1);
+```
 
 #### Test x: Action can change flow data
+ ```
+ public abstract class Action1 : IAction
+ {
+ 	public string Data1 { get; set; }
+ 
+ 	public override void Execute() 
+	{ 
+		this.Data1 = "hi";
+	}
+ }
+ 
+var mockAction = new Mock<Action1>();
+
+dynamic flowData = new ExpandoObject();
+flowData.Data1 = "hello";
+
+var flowDefinition = new FlowDefinition()
+{
+  States = new List<State>()
+  {
+    new State()
+    {
+      Name = "State1",
+      Events = new List<Event>()
+      {
+        Name = "Event1",
+        Actions = new List<Action>()
+        {	
+        	mockAction.Object
+        }
+      }
+    }    
+  }
+};
+
+var flowInstance = new FlowInstance()
+{
+ 	CurrentState = "State1",
+	FlowDefinition = flowDefinition,
+	FlowData = flowData
+};
+
+var result = flowInstance.SendEvent("Event1");
+Assert.IsTrue(result.IsSuccessful);
+Assert.IsEqual("hi", flowData1.Data1);
+```
 
 #### Test x: Action can add flow data
+ ```
+ public abstract class Action1 : IAction
+ {
+ 	public string Data1 { get; set; }
+ 
+ 	public override void Execute() 
+	{ 
+		this.Data1 = "hi";
+	}
+ }
+ 
+var mockAction = new Mock<Action1>();
 
-#### Test x: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
+dynamic flowData = new ExpandoObject();
+
+var flowDefinition = new FlowDefinition()
+{
+  States = new List<State>()
+  {
+    new State()
+    {
+      Name = "State1",
+      Events = new List<Event>()
+      {
+        Name = "Event1",
+        Actions = new List<Action>()
+        {	
+        	mockAction.Object
+        }
+      }
+    }    
+  }
+};
+
+var flowInstance = new FlowInstance()
+{
+ 	CurrentState = "State1",
+	FlowDefinition = flowDefinition,
+	FlowData = flowData
+};
+
+var result = flowInstance.SendEvent("Event1");
+Assert.IsTrue(result.IsSuccessful);
+Assert.IsEqual("hi", flowData1.Data1);
+```
 
 #### Test x: Action throws exception, roll back?, result?
 
@@ -98,7 +233,7 @@ mockAction.Verify(action => action.Execute());
 
 #### Test x: Validations: Proper state name? Next state's name exists?
 
-##### Json.Net PoC, move it later
+#### Json.Net PoC, move it later:
 ```
 using System;
 using Newtonsoft.Json.Linq;
