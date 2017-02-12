@@ -227,6 +227,10 @@ Assert.IsTrue(result.IsSuccessful);
 Assert.IsEqual("hi", flowData1.Data1);
 ```
 
+#### Test x: Arrived to state actions
+
+#### Test x: Conditional self event trigger when arrived to state or another state type like: decision state
+
 #### Test x: Action throws exception, roll back?, result?
 
 #### Test x: Events and actions logs created?
