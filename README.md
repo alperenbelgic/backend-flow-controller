@@ -84,12 +84,59 @@ mockAction.Verify(action => action.Execute());
 
 ```
 
+#### Test x: Action can read flow data
 
+#### Test x: Action can change flow data
 
-#### Test 3: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
+#### Test x: Action can add flow data
 
-#### Test 4: Action throws exception, roll back?, result?
+#### Test x: Send an event to the flow and flow triggers an action which writes changes flow data (which is defined in flow definition)
 
-#### Test 5: Events and actions logs created?
+#### Test x: Action throws exception, roll back?, result?
 
-#### Test 6: Validations: Proper state name? Next state's name exists?
+#### Test x: Events and actions logs created?
+
+#### Test x: Validations: Proper state name? Next state's name exists?
+
+##### Json.Net PoC, move it later
+```
+using System;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;					
+
+public class Program
+{
+	public static void Main()
+	{
+		string json = @"{ ""A"" : ""alperen "", ""D"" : 3 }";		
+		dynamic a = JObject.Parse(json);		
+		dynamic b = new JObject();		
+		b.A = "ads;fadsf";
+		b.C = "hodor";		
+		a.Merge(b, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });	
+		
+		Console.WriteLine(a.ToString());
+		
+		var x = a.ToObject<asdf>();
+		
+		Console.WriteLine(x.A);
+		Console.WriteLine(x.D);
+		
+		a.D = 5;
+		
+		x.D = 7;
+		
+		JsonConvert.PopulateObject(a.ToString(), x);
+		
+		
+		Console.WriteLine(x.D);
+	}
+}
+
+public class asdf{
+
+	public string A;
+	public int D;
+
+}
+```
