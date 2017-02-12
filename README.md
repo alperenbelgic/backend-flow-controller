@@ -3,7 +3,7 @@ backend flow controller (bfc)
 
 ## Motivation
 - ability to design or view the application flow with a human readable way
-- to have full control over what is going on behind the scenes
+- to have full control over the rest of the iceberg
 - separating the API from UI ( or any other consumer )
 
 
