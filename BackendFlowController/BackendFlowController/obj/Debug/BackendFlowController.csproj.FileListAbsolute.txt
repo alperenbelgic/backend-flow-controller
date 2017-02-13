@@ -1,5 +1,4 @@
 C:\Users\Administrator\Source\Repos\back-end-flow-controller\BackendFlowController\BackendFlowController\bin\Debug\BackendFlowController.dll
 C:\Users\Administrator\Source\Repos\back-end-flow-controller\BackendFlowController\BackendFlowController\bin\Debug\BackendFlowController.pdb
-C:\Users\Administrator\Source\Repos\back-end-flow-controller\BackendFlowController\BackendFlowController\obj\Debug\BackendFlowController.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Source\Repos\back-end-flow-controller\BackendFlowController\BackendFlowController\obj\Debug\BackendFlowController.dll
 C:\Users\Administrator\Source\Repos\back-end-flow-controller\BackendFlowController\BackendFlowController\obj\Debug\BackendFlowController.pdb
