@@ -8,10 +8,14 @@ backend flow controller (bfc)
 - to have full control over the rest of the iceberg
 - separating the API from UI ( or any other consumer )
 
+## Why? I mean really, why?
+- Code is not working, we do not know why. There is no logging.
+- I cannot find the code piece I should change. 
+- I really do not know how the application flows
+- I am not sure how I should desing the API. Which web services I should call, which orders etc.
+
 
 ## Some Pseudo Tests:
-
-
 
 #### Test 1: Send an event to the flow and flow changes its state.
 ```
