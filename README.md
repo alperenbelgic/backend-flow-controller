@@ -12,6 +12,7 @@ backend flow controller (bfc)
 - Code is not working, we do not know why. There is no logging.
 - I cannot find the code piece I should change. 
 - I really do not know how the application flows
+- I cannot decide in which state the application is now. I do not know which rows and which columns are used to decide for current state.
 - I am not sure how I should desing the API. Which web services I should call, which orders etc.
 
 
