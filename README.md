@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/450whm3p2sphqi8t?svg=true)](https://ci.appveyor.com/project/alperenbelgic/back-end-flow-controller)
+
 # backend-flow-controller
 backend flow controller (bfc)
 
