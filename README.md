@@ -9,7 +9,7 @@ backend flow controller (bfc)
 - separating the API from UI ( or any other consumer )
 
 ## Why? I mean really, why?
-- Code is not working, we do not know why. There is no logging.
+- Code is not working, we do not know why. There is no message in UI or logging.
 - I cannot find the code piece I should change. 
 - I really do not know how the application flows
 - I cannot decide in which state the application is now. I do not know which rows and which columns are used to decide for current state.
