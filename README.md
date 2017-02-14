@@ -1,20 +1,22 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/450whm3p2sphqi8t?svg=true)](https://ci.appveyor.com/project/alperenbelgic/back-end-flow-controller)
 
-# backend-flow-controller
-backend flow controller (bfc)
+# Backend Flow Controller (BFC)
 
 ## Motivation
 - ability to design or view the application flow with a human readable way
 - to have full control over the rest of the iceberg
 - separating the API from UI ( or any other consumer )
 
-## Why? I mean really, why?
-- Code is not working, we do not know why. There is no logging.
-- I cannot find the code piece I should change. 
+### Why? I mean really, why?
+#### These are some cases making me pissed off in my backend developer daily life:
+- The software is not working, I do not know why. There is no message in UI or logging.
+- I cannot find the code piece should be changed.
 - I really do not know how the application flows
-- I cannot decide in which state the application is now. I do not know which rows and which columns are used to decide for current state.
+- I cannot decide in which state the application is now. I don't know which rows and which columns are used to decide for current state.
 - I am not sure how I should desing the API. Which web services I should call, which orders etc.
 
+### Best Practices For BFC
+- Do not consume data directly from a service or db call in actions. Write them to flow first, then use them in another action. We want to observe the IO in the system. We want our actions to be Unit Testable.
 
 ## Some Pseudo Tests:
 
