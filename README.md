@@ -8,9 +8,9 @@
 - separating the API from UI ( or any other consumer )
 
 ### Why? I mean really, why?
-#### These are some cases making me pissed off:
-- Code is not working, we do not know why. There is no message in UI or logging.
-- I cannot find the code piece I should change.
+#### These are some cases making me pissed off in my backend developer daily life:
+- The software is not working, I do not know why. There is no message in UI or logging.
+- I cannot find the code piece we should change.
 - I really do not know how the application flows
 - I cannot decide in which state the application is now. I don't know which rows and which columns are used to decide for current state.
 - I am not sure how I should desing the API. Which web services I should call, which orders etc.
