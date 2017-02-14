@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,48 @@ namespace BackendFlowController.Tests
 
             Assert.IsTrue(result.Succeeded);
             Assert.AreEqual(flowInstance.CurrentState, "State2");
+
+        }
+
+        [TestAttribute]
+        public void Event_Triggers_Action()
+        {
+
+
+            var mockAction = new Mock<IAction>();
+
+
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+  {
+    new State()
+    {
+      Name = "State1",
+      Events = new List<Event>()
+      {
+          new Event() {
+        Name = "Event1",
+        Actions = new List<IAction>()
+        {
+            mockAction.Object
+        }
+          }
+      }
+    }
+  }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            mockAction.Verify(action => action.Execute());
+
+
 
         }
     }

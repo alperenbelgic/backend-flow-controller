@@ -44,6 +44,7 @@
     <Compile Include="FlowController.cs" />
     <Compile Include="FlowDefinition.cs" />
     <Compile Include="FlowInstance.cs" />
+    <Compile Include="IAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendEventResult.cs" />
     <Compile Include="State.cs" />

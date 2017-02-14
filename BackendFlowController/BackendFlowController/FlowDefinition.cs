@@ -6,6 +6,6 @@
         {
         }
 
-        public System.Collections.Generic.List<State> States { get; set; }
+        public System.Collections.Generic.List<State> States = new System.Collections.Generic.List<State>();
     }
 }

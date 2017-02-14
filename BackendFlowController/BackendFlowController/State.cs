@@ -8,7 +8,7 @@ namespace BackendFlowController
         {
         }
 
-        public List<Event> Events { get; set; }
+        public List<Event> Events = new List<Event>();
         public string Name { get; set; }
     }
 }
