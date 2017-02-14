@@ -15,6 +15,8 @@ backend flow controller (bfc)
 - I cannot decide in which state the application is now. I do not know which rows and which columns are used to decide for current state.
 - I am not sure how I should desing the API. Which web services I should call, which orders etc.
 
+### Best Practices
+- Do not consume data directly from a service or db call in actions. Write them to flow first, then use it in another action. We want to observe the IO in the system.
 
 ## Some Pseudo Tests:
 
