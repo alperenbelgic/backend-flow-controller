@@ -10,10 +10,11 @@
 ### Why? I mean really, why?
 #### These are some cases making me pissed off in my backend developer daily life:
 - The software is not working, I do not know why. There is no message in UI or logging.
-- I cannot find the code piece should be changed.
+- There is a feature/fix I should apply. I cannot find the code piece should be changed.
 - I really do not know how the application flows
-- I cannot decide in which state the application is now. I don't know which rows and which columns are used to decide for current state.
+- I cannot decide in which state the application is now. I don't understand which tables and which columns are used to decide for the current state.
 - I am not sure how I should desing the API. Which web services I should call, which orders etc.
+- This V2 application became legacy. We need to re-write it.
 
 ### Best Practices For BFC
 - Do not consume data directly from a service or db call in actions. Write them to flow first, then use them in another action. We want to observe the IO in the system. We want our actions to be Unit Testable.
