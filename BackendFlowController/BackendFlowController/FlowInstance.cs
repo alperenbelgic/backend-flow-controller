@@ -19,7 +19,7 @@ namespace BackendFlowController
             
             var destinationState = sentEventInDefinition.DestinationState;
 
-            foreach (var action in sentEventInDefintion.Actions)
+            foreach (var action in sentEventInDefinition.Actions)
             {
                 action.Execute();
             }
