@@ -56,6 +56,46 @@ namespace BackendFlowController.Tests
             Assert.AreEqual(flowInstance.CurrentState, "State2");
 
         }
+        
+         [TestAttribute]
+        public void Event_Changes_Flow_Instances_State_2()
+        {
+
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "StateA",
+                        Events = new List<Event>()
+                        {
+                            new Event()
+                            {
+                                Name = "EventA",
+                                DestinationState = "StateB"
+                            }
+                        }
+                    },
+                    new State()
+                    {
+                        Name = "StateB"
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            SendEventResult result = flowInstance.SendEvent("EventA");
+
+            Assert.IsTrue(result.Succeeded);
+            Assert.AreEqual(flowInstance.CurrentState, "StateB");
+
+        }
 
         [TestAttribute]
         public void Event_Triggers_Action()
