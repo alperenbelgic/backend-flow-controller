@@ -15,11 +15,11 @@ namespace BackendFlowController
         {
             var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s=> s.Name == this.CurrentState);
             
-            var sentEventInDefintion = currentStateInDefinition.Events.FirstOrDefault(e=> e.Name == eventName);
+            var sentEventInDefinition = currentStateInDefinition.Events.FirstOrDefault(e=> e.Name == eventName);
             
             var destinationState = sentEventInDefinition.DestinationState;
 
-            foreach (var action in sentEventInDefintion.Actions)
+            foreach (var action in sentEventInDefinition.Actions)
             {
                 action.Execute();
             }
