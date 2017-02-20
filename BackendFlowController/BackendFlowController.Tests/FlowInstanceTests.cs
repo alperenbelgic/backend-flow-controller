@@ -46,7 +46,7 @@ namespace BackendFlowController.Tests
 
             var flowInstance = new FlowInstance()
             {
-                CurrentState = "StateA",
+                CurrentState = "State1",
                 FlowDefinition = flowDefinition
             };
 
@@ -86,7 +86,7 @@ namespace BackendFlowController.Tests
 
             var flowInstance = new FlowInstance()
             {
-                CurrentState = "State1",
+                CurrentState = "StateA",
                 FlowDefinition = flowDefinition
             };
 
