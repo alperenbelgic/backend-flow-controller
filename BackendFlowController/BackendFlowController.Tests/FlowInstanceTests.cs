@@ -53,11 +53,11 @@ namespace BackendFlowController.Tests
             SendEventResult result = flowInstance.SendEvent("Event1");
 
             Assert.IsTrue(result.Succeeded);
-            Assert.AreEqual(flowInstance.CurrentState, "State2");
+            Assert.AreEqual("State2", flowInstance.CurrentState);
 
         }
         
-         [TestAttribute]
+        [TestAttribute]
         public void Event_Changes_Flow_Instances_State_2()
         {
 
@@ -93,10 +93,42 @@ namespace BackendFlowController.Tests
             SendEventResult result = flowInstance.SendEvent("EventA");
 
             Assert.IsTrue(result.Succeeded);
-            Assert.AreEqual(flowInstance.CurrentState, "StateB");
+            Assert.AreEqual("StateB", flowInstance.CurrentState);
+        }
+        
+        
+        [TestAttribute]
+        public void Event_Does_Not_Change_The_State()
+        {
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            
+            Assert.AreEqual("State1", flowInstance.CurrentState);
 
         }
-
         [TestAttribute]
         public void Event_Triggers_Action()
         {
