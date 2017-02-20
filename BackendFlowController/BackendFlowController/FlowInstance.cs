@@ -13,18 +13,19 @@ namespace BackendFlowController
 
         public SendEventResult SendEvent(string eventName)
         {
-            foreach (var state in this.FlowDefinition.States)
-            {
-                foreach (var _event in state.Events)
-                {
-                    foreach (var action in _event.Actions)
-                    {
-                        action.Execute();
-                    }
-                }
-            }
+            var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s=> s.Name == this.CurrentState);
+            
+            var sentEventInDefinition = currentStateInDefinition.Events.FirstOrDefault(e=> e.Name == eventName);
+            
+            var destinationState = sentEventInDefinition.DestinationState;
 
-            CurrentState = "State2";
+            foreach (var action in sentEventInDefinition.Actions)
+            {
+                action.Execute();
+            }
+          
+
+            CurrentState = destinationState;
             return new SendEventResult() { Succeeded = true };
         }
     }
