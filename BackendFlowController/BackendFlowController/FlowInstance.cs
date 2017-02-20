@@ -24,8 +24,12 @@ namespace BackendFlowController
                 action.Execute();
             }
           
-
-            CurrentState = destinationState;
+            this.CurrentState = currentStateInDefinition.Name;
+            if(!String.IsNullOrWhiteSpace(destinationState))
+            {
+                CurrentState = destinationState;
+            }            
+            
             return new SendEventResult() { Succeeded = true };
         }
     }
