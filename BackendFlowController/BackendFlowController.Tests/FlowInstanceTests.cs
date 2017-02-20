@@ -100,30 +100,28 @@ namespace BackendFlowController.Tests
         [TestAttribute]
         public void Event_Triggers_Action()
         {
-
-
             var mockAction = new Mock<IAction>();
-
 
             var flowDefinition = new FlowDefinition()
             {
                 States = new List<State>()
-  {
-    new State()
-    {
-      Name = "State1",
-      Events = new List<Event>()
-      {
-          new Event() {
-        Name = "Event1",
-        Actions = new List<IAction>()
-        {
-            mockAction.Object
-        }
-          }
-      }
-    }
-  }
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1",
+                                Actions = new List<IAction>()
+                                {
+                                    mockAction.Object
+                                }
+                            }
+                        }
+                    }
+                }
             };
 
             var flowInstance = new FlowInstance()
