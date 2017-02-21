@@ -16,6 +16,12 @@ namespace BackendFlowController.Tests
         {
             Assert.AreEqual(1, 1);
         }
+        
+        [TestAttribute]
+        public void BreakTheTest()
+        {
+            Assert.AreEqual(2, 1);
+        }
 
         [TestAttribute]
         public void Event_Changes_Flow_Instances_State()
