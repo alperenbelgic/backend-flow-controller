@@ -204,7 +204,7 @@ namespace BackendFlowController.Tests
 
             var result = flowInstance.SendEvent("Event1");
             
-            result.CreatedLogs(cl => cl.LogType == "ActionLog");
+            Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
         }
     }
 }
