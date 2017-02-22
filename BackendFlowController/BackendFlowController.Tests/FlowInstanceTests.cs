@@ -16,12 +16,7 @@ namespace BackendFlowController.Tests
         {
             Assert.AreEqual(1, 1);
         }
-        
-        [TestAttribute]
-        public void BreakTheTest()
-        {
-            Assert.AreEqual(2, 1);
-        }
+  
 
         [TestAttribute]
         public void Event_Changes_Flow_Instances_State()
@@ -173,6 +168,43 @@ namespace BackendFlowController.Tests
 
 
 
+        }
+        
+        public void Action_Execution_Creates_Logs()
+        {
+            var mockAction = new Mock<IAction>();
+
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1",
+                                Actions = new List<IAction>()
+                                {
+                                    mockAction.Object
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            
+            result.CreatedLogs(cl => cl.LogType == "ActionLog");
         }
     }
 }
