@@ -16,13 +16,6 @@ namespace BackendFlowController.Tests
         {
             Assert.AreEqual(1, 1);
         }
-        
-        [TestAttribute]
-        public void TestTest_ErrorTest()
-        {
-            Assert.AreEqual(1, 2);
-        }        
-  
 
         [TestAttribute]
         public void Event_Changes_Flow_Instances_State()
@@ -209,7 +202,7 @@ namespace BackendFlowController.Tests
 
             var result = flowInstance.SendEvent("Event1");
             
-            Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
+            Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "Action_PostExecution"));
         }
 
     
