@@ -35,8 +35,11 @@ namespace BackendFlowController
                 Succeeded = true, 
                 CreatedLogs = new List<FlowLog>()
                 { 
-                    LogType = "ActionLog", 
-                    LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                    new FlowLog()
+                    {
+                        LogType = "ActionLog", 
+                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                    }
                 } 
             };
         }
