@@ -164,9 +164,80 @@ namespace BackendFlowController.Tests
 
             var result = flowInstance.SendEvent("Event1");
             mockAction.Verify(action => action.Execute());
-
-
-
+            
         }
+        
+        [TestAttribute]
+        public void Action_Execution_Creates_Logs()
+        {
+            var mockAction = new Mock<IAction>();
+
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1",
+                                Actions = new List<IAction>()
+                                {
+                                    mockAction.Object
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            
+            Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "Action_PostExecution"));
+        }
+
+    
+        [TestAttribute]
+        public void There_Should_Be_No_Action_Log_If_No_Action_Executed()
+        {
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            
+            Assert.IsFalse(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
+        }
+
+    
     }
 }
