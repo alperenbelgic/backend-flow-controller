@@ -30,7 +30,15 @@ namespace BackendFlowController
                 CurrentState = destinationState;
             }            
             
-            return new SendEventResult() { Succeeded = true };
+            return new SendEventResult() 
+            { 
+                Succeeded = true, 
+                CreatedLogs = new List<FlowLog>()
+                { 
+                    LogType = "ActionLog", 
+                    LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                } 
+            };
         }
     }
 }
