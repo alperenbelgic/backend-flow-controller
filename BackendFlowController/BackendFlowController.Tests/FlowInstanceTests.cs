@@ -211,5 +211,40 @@ namespace BackendFlowController.Tests
             
             Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
         }
+
+    
+        [TestAttribute]
+        public void There_Should_Be_No_Action_Log_If_No_Action_Executed()
+        {
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "State1",
+                        Events = new List<Event>()
+                        {
+                            new Event() 
+                            {
+                                Name = "Event1"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "State1",
+                FlowDefinition = flowDefinition
+            };
+
+            var result = flowInstance.SendEvent("Event1");
+            
+            Assert.IsFalse(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
+        }
+
+    
     }
 }
