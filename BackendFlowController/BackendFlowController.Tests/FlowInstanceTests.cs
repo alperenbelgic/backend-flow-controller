@@ -16,6 +16,12 @@ namespace BackendFlowController.Tests
         {
             Assert.AreEqual(1, 1);
         }
+        
+        [TestAttribute]
+        public void TestTest_ErrorTest()
+        {
+            Assert.AreEqual(1, 2);
+        }        
   
 
         [TestAttribute]
