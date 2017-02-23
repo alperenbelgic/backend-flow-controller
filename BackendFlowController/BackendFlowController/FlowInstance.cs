@@ -10,6 +10,7 @@ namespace BackendFlowController
     {
         public string CurrentState { get; set; }
         public FlowDefinition FlowDefinition { get; set; }
+        public List<FlowLog> CreatedLogs = new List<FlowLog>();
 
         public SendEventResult SendEvent(string eventName)
         {
@@ -21,7 +22,21 @@ namespace BackendFlowController
 
             foreach (var action in sentEventInDefinition.Actions)
             {
+                CreatedLogs.Add(
+                    new FlowLog()
+                    {
+                        LogType = "Action_PreExecution", 
+                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                    });
+                
                 action.Execute();
+                
+                CreatedLogs.Add(
+                    new FlowLog()
+                    {
+                        LogType = "Action_PostExecution", 
+                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                    });
             }
           
             this.CurrentState = currentStateInDefinition.Name;
@@ -33,14 +48,7 @@ namespace BackendFlowController
             return new SendEventResult() 
             { 
                 Succeeded = true, 
-                CreatedLogs = new List<FlowLog>()
-                { 
-                    new FlowLog()
-                    {
-                        LogType = "ActionLog", 
-                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
-                    }
-                } 
+                CreatedLogs = CreatedLogs
             };
         }
     }
