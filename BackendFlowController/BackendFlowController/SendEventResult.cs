@@ -1,4 +1,6 @@
-﻿namespace BackendFlowController
+using System.Collections.Generic;
+
+namespace BackendFlowController
 {
     public class SendEventResult
     {
