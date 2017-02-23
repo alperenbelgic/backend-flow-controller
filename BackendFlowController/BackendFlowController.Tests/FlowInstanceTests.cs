@@ -165,11 +165,10 @@ namespace BackendFlowController.Tests
 
             var result = flowInstance.SendEvent("Event1");
             mockAction.Verify(action => action.Execute());
-
-
-
+            
         }
         
+        [TestAttribute]
         public void Action_Execution_Creates_Logs()
         {
             var mockAction = new Mock<IAction>();
