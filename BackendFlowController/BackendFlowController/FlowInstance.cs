@@ -14,10 +14,18 @@ namespace BackendFlowController
 
         public SendEventResult SendEvent(string eventName)
         {
-            var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s=> s.Name == this.CurrentState);
-            
-            var sentEventInDefinition = currentStateInDefinition.Events.FirstOrDefault(e=> e.Name == eventName);
-            
+            var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
+
+            var sentEventInDefinition = currentStateInDefinition.Events.FirstOrDefault(e => e.Name == eventName);
+
+            if (sentEventInDefinition == null)
+            {
+                return new SendEventResult()
+                {
+                    Succeeded = false
+                };
+            }
+
             var destinationState = sentEventInDefinition.DestinationState;
 
             foreach (var action in sentEventInDefinition.Actions)
@@ -25,29 +33,29 @@ namespace BackendFlowController
                 CreatedLogs.Add(
                     new FlowLog()
                     {
-                        LogType = "Action_PreExecution", 
-                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                        LogType = "Action_PreExecution",
+                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise"
                     });
-                
+
                 action.Execute();
-                
+
                 CreatedLogs.Add(
                     new FlowLog()
                     {
-                        LogType = "Action_PostExecution", 
-                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise" 
+                        LogType = "Action_PostExecution",
+                        LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise"
                     });
             }
-          
+
             this.CurrentState = currentStateInDefinition.Name;
-            if(!String.IsNullOrWhiteSpace(destinationState))
+            if (!String.IsNullOrWhiteSpace(destinationState))
             {
                 CurrentState = destinationState;
-            }            
-            
-            return new SendEventResult() 
-            { 
-                Succeeded = true, 
+            }
+
+            return new SendEventResult()
+            {
+                Succeeded = true,
                 CreatedLogs = CreatedLogs
             };
         }

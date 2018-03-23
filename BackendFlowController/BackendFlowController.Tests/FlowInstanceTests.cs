@@ -95,6 +95,39 @@ namespace BackendFlowController.Tests
             Assert.IsTrue(result.Succeeded);
             Assert.AreEqual("StateB", flowInstance.CurrentState);
         }
+
+        [TestAttribute]
+        public void Undefined_Event_Returns_Unsuccessful_Result()
+        {
+            var flowDefinition = new FlowDefinition()
+            {
+                States = new List<State>()
+                {
+                    new State()
+                    {
+                        Name = "StateA",
+                        Events = new List<Event>()
+                        {
+                            new Event()
+                            {
+                                Name = "EventA",
+                                DestinationState = "StateB"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var flowInstance = new FlowInstance()
+            {
+                CurrentState = "StateA",
+                FlowDefinition = flowDefinition
+            };
+
+            SendEventResult result = flowInstance.SendEvent("EventB");
+
+            Assert.AreEqual(false, result.Succeeded);
+        }
         
         
         [TestAttribute]
