@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Event.cs" />
     <Compile Include="FlowController.cs" />
+    <Compile Include="FlowDataAttribute.cs" />
     <Compile Include="FlowDefinition.cs" />
     <Compile Include="FlowInstance.cs" />
     <Compile Include="FlowLog.cs" />

@@ -1,11 +1,14 @@
-﻿namespace BackendFlowController
+﻿using System.Collections.Generic;
+
+namespace BackendFlowController
 {
     public class FlowDefinition
     {
-        public FlowDefinition()
+        public FlowDefinition(List<State> states)
         {
+            this.States = states;
         }
 
-        public System.Collections.Generic.List<State> States = new System.Collections.Generic.List<State>();
+        public List<State> States { get; private set; }
     }
 }

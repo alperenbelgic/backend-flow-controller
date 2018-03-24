@@ -8,9 +8,17 @@ namespace BackendFlowController
 {
     public class FlowInstance
     {
-        public string CurrentState { get; set; }
-        public FlowDefinition FlowDefinition { get; set; }
-        public List<FlowLog> CreatedLogs = new List<FlowLog>();
+        public string CurrentState { get; private set; }
+        public dynamic FlowData { get; }
+        public FlowDefinition FlowDefinition { get; private set; }
+        public List<FlowLog> CreatedLogs { private set; get; } = new List<FlowLog>();
+
+        public FlowInstance(FlowDefinition flowDefinition, string currentState, dynamic flowData = null)
+        {
+            this.FlowDefinition = flowDefinition;
+            this.CurrentState = currentState;
+            this.FlowData = flowData;
+        }
 
         public SendEventResult SendEvent(string eventName)
         {
@@ -36,6 +44,8 @@ namespace BackendFlowController
                         LogMessage = "I am not sure that it is normal to add a field which is not consumed at unit tests, as a tdd practise"
                     });
 
+                AssignFlowDataToAction(action);
+
                 action.Execute();
 
                 CreatedLogs.Add(
@@ -53,6 +63,30 @@ namespace BackendFlowController
             }
 
             return new SendEventResult(succeeded: true, createdLogs: CreatedLogs);
+        }
+
+        private void AssignFlowDataToAction(IAction action)
+        {
+            if (this.FlowData != null)
+            {
+                
+                var actionPropererties = action.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(FlowDataAttribute), true).Any());
+
+                foreach (var actionProperty in actionPropererties)
+                {
+                    var flowData = this.FlowData as IDictionary<string, object>;
+                    if (flowData.ContainsKey(actionProperty.Name))
+                    {
+                        var valueInFlow = flowData[actionProperty.Name];
+
+                        if (actionProperty.PropertyType == valueInFlow.GetType())
+                        {
+                            actionProperty.SetValue(action, valueInFlow);
+                        }
+                    }
+
+                }
+            }
         }
     }
 }

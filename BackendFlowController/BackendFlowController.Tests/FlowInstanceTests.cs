@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,34 +22,28 @@ namespace BackendFlowController.Tests
         public void Event_Changes_Flow_Instances_State()
         {
 
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                        name: "State1",
-                        events: new List<Event>()
-                        {
-                            new Event()
-                            {
-                                Name = "Event1",
-                                DestinationState = "State2"
-                            }
-                        }
-                        )
-                    {
+            var flowDefinition = new FlowDefinition(
+                                                         states: new List<State>()
+                                                         {
+                                                             new State(
+                                                                         name: "State1",
+                                                                         events: new List<Event>()
+                                                                         {
+                                                                             new Event()
+                                                                             {
+                                                                                 Name = "Event1",
+                                                                                 DestinationState = "State2"
+                                                                             }
+                                                                         }
+                                                                       ),
+                                                             new State(name: "State2")
+                                                         }
+                                                    );
 
-
-                    },
-                    new State(name: "State2")
-                }
-            };
-
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "State1",
-                FlowDefinition = flowDefinition
-            };
+            var flowInstance = new FlowInstance(
+                                                 currentState: "State1",
+                                                 flowDefinition: flowDefinition
+                                                );
 
             SendEventResult result = flowInstance.SendEvent("Event1");
 
@@ -61,31 +56,29 @@ namespace BackendFlowController.Tests
         public void Event_Changes_Flow_Instances_State_2()
         {
 
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                        name:"StateA",
-                        events:
-                        new List<Event>()
-                        {
-                            new Event()
-                            {
-                                Name = "EventA",
-                                DestinationState = "StateB"
-                            }
-                        }
-                        ),
-                    new State(name:"StateB")
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                                    name:"StateA",
+                                                                    events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event()
+                                                                        {
+                                                                            Name = "EventA",
+                                                                            DestinationState = "StateB"
+                                                                        }
+                                                                    }
+                                                                   ),
+                                                        new State(name:"StateB")
+                                                     }
+                                                    );
 
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "StateA",
-                FlowDefinition = flowDefinition
-            };
+            var flowInstance = new FlowInstance(
+                                                currentState: "StateA",
+                                                flowDefinition: flowDefinition
+                                                );
 
             SendEventResult result = flowInstance.SendEvent("EventA");
 
@@ -96,30 +89,28 @@ namespace BackendFlowController.Tests
         [TestAttribute]
         public void Undefined_Event_Returns_Unsuccessful_Result()
         {
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                                name: "StateA",
-                                events:
-                                new List<Event>()
-                                {
-                                    new Event()
-                                    {
-                                        Name = "EventA",
-                                        DestinationState = "StateB"
-                                    }
-                                }
-                        )
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                        states: new List<State>()
+                                                        {
+                                                            new State(
+                                                                        name: "StateA",
+                                                                        events:
+                                                                        new List<Event>()
+                                                                        {
+                                                                            new Event()
+                                                                            {
+                                                                                Name = "EventA",
+                                                                                DestinationState = "StateB"
+                                                                            }
+                                                                        }
+                                                                )
+                                                        }
+                );
 
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "StateA",
-                FlowDefinition = flowDefinition
-            };
+            var flowInstance = new FlowInstance(
+                                                currentState: "StateA",
+                                                flowDefinition: flowDefinition
+                                                );
 
             SendEventResult result = flowInstance.SendEvent("EventB");
 
@@ -130,29 +121,28 @@ namespace BackendFlowController.Tests
         [TestAttribute]
         public void Event_Does_Not_Change_The_State()
         {
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                                name:"State1",
-                                events:
-                                new List<Event>()
-                                {
-                                    new Event()
-                                    {
-                                        Name = "Event1"
-                                    }
-                                }
-                              )
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                        states: new List<State>()
+                                                        {
+                                                            new State(
+                                                                        name:"State1",
+                                                                        events:
+                                                                        new List<Event>()
+                                                                        {
+                                                                            new Event()
+                                                                            {
+                                                                                Name = "Event1"
+                                                                            }
+                                                                        }
+                                                                      )
+                                                        }
 
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "State1",
-                FlowDefinition = flowDefinition
-            };
+                                                   );
+
+            var flowInstance = new FlowInstance(
+                                                currentState: "State1",
+                                                flowDefinition: flowDefinition
+                                                );
 
             var result = flowInstance.SendEvent("Event1");
 
@@ -164,33 +154,31 @@ namespace BackendFlowController.Tests
         {
             var mockAction = new Mock<IAction>();
 
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                                name:"State1",
-                                events:
-                                new List<Event>()
-                                {
-                                    new Event()
-                                    {
-                                        Name = "Event1",
-                                        Actions = new List<IAction>()
-                                        {
-                                            mockAction.Object
-                                        }
-                                    }
-                                }
-                        )
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                                    name:"State1",
+                                                                    events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event()
+                                                                        {
+                                                                            Name = "Event1",
+                                                                            Actions = new List<IAction>()
+                                                                            {
+                                                                                mockAction.Object
+                                                                            }
+                                                                        }
+                                                                    }
+                                                            )
+                                                    }
+                                                   );
 
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "State1",
-                FlowDefinition = flowDefinition
-            };
+            var flowInstance = new FlowInstance(
+                                                  currentState: "State1",
+                                                  flowDefinition: flowDefinition
+                                                );
 
             var result = flowInstance.SendEvent("Event1");
             mockAction.Verify(action => action.Execute());
@@ -202,33 +190,32 @@ namespace BackendFlowController.Tests
         {
             var mockAction = new Mock<IAction>();
 
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                                name:"State1",
-                                events:
-                                new List<Event>()
-                                {
-                                    new Event()
-                                    {
-                                        Name = "Event1",
-                                        Actions = new List<IAction>()
-                                        {
-                                            mockAction.Object
-                                        }
-                                    }
-                                }
-                        )
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                                    name:"State1",
+                                                                    events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event()
+                                                                        {
+                                                                            Name = "Event1",
+                                                                            Actions = new List<IAction>()
+                                                                            {
+                                                                                mockAction.Object
+                                                                            }
+                                                                        }
+                                                                    }
+                                                            )
+                                                    }
+                                                    );
 
-            var flowInstance = new FlowInstance()
-            {
-                CurrentState = "State1",
-                FlowDefinition = flowDefinition
-            };
+            var flowInstance = new FlowInstance(
+                                                    currentState: "State1",
+                                                    flowDefinition: flowDefinition
+                                                );
+
 
             var result = flowInstance.SendEvent("Event1");
 
@@ -238,28 +225,29 @@ namespace BackendFlowController.Tests
         [TestAttribute]
         public void There_Should_Be_No_Action_Log_If_No_Action_Executed()
         {
-            var flowDefinition = new FlowDefinition()
-            {
-                States = new List<State>()
-                {
-                    new State(
-                        name: "State1",
-                        events:
-                                new List<Event>()
-                                {
-                                    new Event()
-                                    {
-                                        Name = "Event1"
-                                    }
-                                }
-                        )
-                }
-            };
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                            name: "State1",
+                                                            events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event()
+                                                                        {
+                                                                            Name = "Event1"
+                                                                        }
+                                                                    }
+                                                            )
+                                                    }
+                                                   );
 
-            var flowInstance = new FlowInstance()
+            var flowInstance = new FlowInstance(
+                                                currentState: "State1",
+                                                flowDefinition: flowDefinition
+                                                );
             {
-                CurrentState = "State1",
-                FlowDefinition = flowDefinition
+
             };
 
             var result = flowInstance.SendEvent("Event1");
@@ -268,6 +256,73 @@ namespace BackendFlowController.Tests
         }
 
 
+        public class FlowDataReadingFakeAction : IAction
+        {
+            [FlowData]
+            public string SomeFlowData { get; set; }
+
+            [FlowData]
+            public int SomeFlowDataInt { get; set; }
+
+            public string TestingField { get; set; }
+            public int TestingFieldInt { get; private set; }
+
+            public void Execute()
+            {
+                TestingField = SomeFlowData;
+                TestingFieldInt = SomeFlowDataInt;
+            }
+        }
+        [Test]
+        public void Action_Can_Read_Flow_Data()
+        {
+            var flowDataReadingAction = new FlowDataReadingFakeAction();
+
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                                    name:"State1",
+                                                                    events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event()
+                                                                        {
+                                                                            Name = "Event1",
+                                                                            Actions = new List<IAction>()
+                                                                            {
+                                                                                flowDataReadingAction
+                                                                            }
+                                                                        }
+                                                                    }
+                                                            )
+                                                    }
+                                                   );
+
+            dynamic flowData = new ExpandoObject();
+            string testText = "alperen";
+            int testInt = 1;
+
+            flowData.SomeFlowData = testText; ;
+            flowData.SomeFlowDataInt = testInt;
+
+            var flowInstance = new FlowInstance(
+                                                  currentState: "State1",
+                                                  flowDefinition: flowDefinition,
+                                                  flowData: flowData
+                                                );
+
+            var result = flowInstance.SendEvent("Event1");
+
+            Assert.AreEqual(testText, flowDataReadingAction.TestingField);
+            Assert.AreEqual(testInt, flowDataReadingAction.TestingFieldInt);
+
+        }
+
+        // test todo: action's properties should have the attribute
+        // test todo: action's properties access modifiers?
+        // test todo: if action's property and flow property matches, their types have to be same
+        // test todo: what if property hieararchy complicates. what if flow data has tree like property.property.property or property.list.etc. find these scenarions
 
 
     }
