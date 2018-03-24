@@ -95,10 +95,7 @@ namespace BackendFlowController.Tests
                                                                         events:
                                                                         new List<Event>()
                                                                         {
-                                                                            new Event(
-                                                                                        name : "EventA",
-                                                                                        destinationState : "StateB"
-                                                                                      )
+                                                                            new Event(name : "EventA")
                                                                         }
                                                                 )
                                                         }
@@ -112,6 +109,45 @@ namespace BackendFlowController.Tests
             SendEventResult result = flowInstance.SendEvent("EventB");
 
             Assert.AreEqual(false, result.Succeeded);
+        }
+
+        [Test]
+        public void Flow_Instance_Construction_Wrong_State_Name_Throws_Error()
+        {
+            var flowDefinition = new FlowDefinition(
+                                                       states: new List<State>()
+                                                       {
+                                                                new State(
+                                                                            name: "StateA",
+                                                                            events:
+                                                                            new List<Event>()
+                                                                            {
+                                                                                new Event(name : "EventA")
+                                                                            }
+                                                                    )
+                                                       }
+
+                                                    );
+
+            FlowInstance flowInstance;
+
+
+            var ex = Assert.Throws<FlowInstanceException>(
+                () =>
+                {
+                    flowInstance = new FlowInstance(currentState: "StateB", flowDefinition: flowDefinition);
+                });
+        }
+
+        [Test]
+        public void Flow_Instance_Construction_Missing_Flow_Definition_Throws_Error()
+        {
+            FlowInstance flowInstance;
+            var ex = Assert.Throws<FlowInstanceException>(
+                () =>
+                {
+                    flowInstance = new FlowInstance(flowDefinition: null, currentState: "StateB");
+                });
         }
 
 
@@ -377,6 +413,8 @@ namespace BackendFlowController.Tests
         // test todo: if action's property and flow property matches, their types have to be same
         // test todo: what if property hieararchy complicates. what if flow data has tree like property.property.property or property.list.etc. find these scenarions
         // test todo: when there is not any data in flowData for a flowData property, what to do? keep it as its ? or assign default?
+        // test todo: action log logs action name
+        // test todo: action log logs time in UTC
 
     }
 }

@@ -18,21 +18,39 @@ namespace BackendFlowController
             this.FlowDefinition = flowDefinition;
             this.CurrentState = currentState;
             this.FlowData = flowData;
+
+            ValidateFlowDefinition();
+            ValidateCurrentState();
+        }
+
+        private void ValidateFlowDefinition()
+        {
+            if (FlowDefinition == null)
+            {
+                throw new FlowInstanceException();
+            }
+        }
+
+        private void ValidateCurrentState()
+        {
+            if (!this.FlowDefinition.States.Any(s => s.Name == this.CurrentState))
+            {
+                throw new FlowInstanceException();
+            }
         }
 
         public SendEventResult SendEvent(string eventName)
         {
             var currentState = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
 
-            var currentEventResult = currentState.GetEvent(eventName);
+            var getEventResult = currentState.GetEvent(eventName);
 
-            if (false == currentEventResult.Succeeded)
+            if (false == getEventResult.Succeeded)
             {
                 return new SendEventResult(false);
             }
 
-            var currentEvent = currentEventResult.Event;
-
+            var currentEvent = getEventResult.Event;
 
             foreach (var action in currentEvent.Actions)
             {
@@ -100,7 +118,7 @@ namespace BackendFlowController
                     if (flowData.ContainsKey(actionProperty.Name))
                     {
                         var valueInFlow = flowData[actionProperty.Name];
-                        
+
                         if (valueInFlow != null && actionProperty.PropertyType == valueInFlow.GetType())
                         {
                             actionProperty.SetValue(action, valueInFlow);

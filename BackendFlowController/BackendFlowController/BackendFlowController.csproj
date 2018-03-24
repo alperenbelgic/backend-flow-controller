@@ -45,6 +45,7 @@
     <Compile Include="FlowDataAttribute.cs" />
     <Compile Include="FlowDefinition.cs" />
     <Compile Include="FlowInstance.cs" />
+    <Compile Include="FlowInstanceException.cs" />
     <Compile Include="FlowLog.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
