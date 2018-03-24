@@ -29,11 +29,10 @@ namespace BackendFlowController.Tests
                                                                          name: "State1",
                                                                          events: new List<Event>()
                                                                          {
-                                                                             new Event()
-                                                                             {
-                                                                                 Name = "Event1",
-                                                                                 DestinationState = "State2"
-                                                                             }
+                                                                             new Event(
+                                                                                         name : "Event1",
+                                                                                         destinationState : "State2"
+                                                                                      )
                                                                          }
                                                                        ),
                                                              new State(name: "State2")
@@ -64,11 +63,10 @@ namespace BackendFlowController.Tests
                                                                     events:
                                                                     new List<Event>()
                                                                     {
-                                                                        new Event()
-                                                                        {
-                                                                            Name = "EventA",
-                                                                            DestinationState = "StateB"
-                                                                        }
+                                                                        new Event(
+                                                                                    name : "EventA",
+                                                                                    destinationState: "StateB"
+                                                                                 )
                                                                     }
                                                                    ),
                                                         new State(name:"StateB")
@@ -97,11 +95,10 @@ namespace BackendFlowController.Tests
                                                                         events:
                                                                         new List<Event>()
                                                                         {
-                                                                            new Event()
-                                                                            {
-                                                                                Name = "EventA",
-                                                                                DestinationState = "StateB"
-                                                                            }
+                                                                            new Event(
+                                                                                        name : "EventA",
+                                                                                        destinationState : "StateB"
+                                                                                      )
                                                                         }
                                                                 )
                                                         }
@@ -129,10 +126,7 @@ namespace BackendFlowController.Tests
                                                                         events:
                                                                         new List<Event>()
                                                                         {
-                                                                            new Event()
-                                                                            {
-                                                                                Name = "Event1"
-                                                                            }
+                                                                            new Event(name : "Event1")
                                                                         }
                                                                       )
                                                         }
@@ -162,14 +156,13 @@ namespace BackendFlowController.Tests
                                                                     events:
                                                                     new List<Event>()
                                                                     {
-                                                                        new Event()
-                                                                        {
-                                                                            Name = "Event1",
-                                                                            Actions = new List<IAction>()
-                                                                            {
-                                                                                mockAction.Object
-                                                                            }
-                                                                        }
+                                                                        new Event(
+                                                                                    name : "Event1",
+                                                                                    actions : new List<IAction>()
+                                                                                    {
+                                                                                        mockAction.Object
+                                                                                    }
+                                                                                  )
                                                                     }
                                                             )
                                                     }
@@ -198,16 +191,15 @@ namespace BackendFlowController.Tests
                                                                     events:
                                                                     new List<Event>()
                                                                     {
-                                                                        new Event()
-                                                                        {
-                                                                            Name = "Event1",
-                                                                            Actions = new List<IAction>()
-                                                                            {
-                                                                                mockAction.Object
-                                                                            }
-                                                                        }
+                                                                        new Event(
+                                                                                    name : "Event1",
+                                                                                    actions : new List<IAction>()
+                                                                                    {
+                                                                                        mockAction.Object
+                                                                                    }
+                                                                                  )
                                                                     }
-                                                            )
+                                                                  )
                                                     }
                                                     );
 
@@ -233,10 +225,7 @@ namespace BackendFlowController.Tests
                                                             events:
                                                                     new List<Event>()
                                                                     {
-                                                                        new Event()
-                                                                        {
-                                                                            Name = "Event1"
-                                                                        }
+                                                                        new Event(name : "Event1")
                                                                     }
                                                             )
                                                     }
@@ -276,6 +265,9 @@ namespace BackendFlowController.Tests
         [Test]
         public void Action_Can_Read_Flow_Data()
         {
+            string testText = "alperen";
+            int testInt = 1;
+
             var flowDataReadingAction = new FlowDataReadingFakeAction();
 
             var flowDefinition = new FlowDefinition(
@@ -286,22 +278,20 @@ namespace BackendFlowController.Tests
                                                                     events:
                                                                     new List<Event>()
                                                                     {
-                                                                        new Event()
-                                                                        {
-                                                                            Name = "Event1",
-                                                                            Actions = new List<IAction>()
-                                                                            {
-                                                                                flowDataReadingAction
-                                                                            }
-                                                                        }
+                                                                        new Event(
+                                                                                    name : "Event1",
+                                                                                    actions : new List<IAction>()
+                                                                                    {
+                                                                                        flowDataReadingAction
+                                                                                    }
+                                                                                  )
                                                                     }
                                                             )
                                                     }
                                                    );
 
             dynamic flowData = new ExpandoObject();
-            string testText = "alperen";
-            int testInt = 1;
+
 
             flowData.SomeFlowData = testText; ;
             flowData.SomeFlowDataInt = testInt;
@@ -319,11 +309,73 @@ namespace BackendFlowController.Tests
 
         }
 
+        public class FlowDataWritingFakeAction : IAction
+        {
+            [FlowData]
+            public string SomeFlowData { get; set; }
+
+            [FlowData]
+            public int SomeFlowDataInt { get; set; }
+
+            public string TestingField { get; set; }
+            public int TestingFieldInt { get; set; }
+
+            public void Execute()
+            {
+                SomeFlowData = TestingField;
+                SomeFlowDataInt = TestingFieldInt;
+            }
+        }
+
+        [Test]
+        public void Action_Can_Write_Flow_Data()
+        {
+            string stringTestData = "stringTestData";
+            int intTestData = 54;
+
+            var flowDataWritingFakeAction = new FlowDataWritingFakeAction()
+            {
+                TestingFieldInt = intTestData,
+                TestingField = stringTestData
+            };
+
+            var flowDefinition = new FlowDefinition(
+                                                    states: new List<State>()
+                                                    {
+                                                        new State(
+                                                                    name:"State1",
+                                                                    events:
+                                                                    new List<Event>()
+                                                                    {
+                                                                        new Event(
+                                                                                    name : "Event1",
+                                                                                    actions : new List<IAction>()
+                                                                                              {
+                                                                                                  flowDataWritingFakeAction
+                                                                                              }
+                                                                                   )
+                                                                    }
+                                                            )
+                                                    }
+                                                   );
+
+            dynamic flowData = new ExpandoObject();
+            flowData.SomeFlowData = null as string;
+            flowData.SomeFlowDataInt = 0;
+
+            var flowInstance = new FlowInstance(flowDefinition, "State1", flowData: flowData);
+
+            var sendEventResult = flowInstance.SendEvent("Event1");
+
+            Assert.AreEqual(stringTestData, flowData.SomeFlowData);
+            Assert.AreEqual(intTestData, flowData.SomeFlowDataInt);
+        }
+
         // test todo: action's properties should have the attribute
         // test todo: action's properties access modifiers?
         // test todo: if action's property and flow property matches, their types have to be same
         // test todo: what if property hieararchy complicates. what if flow data has tree like property.property.property or property.list.etc. find these scenarions
-
+        // test todo: when there is not any data in flowData for a flowData property, what to do? keep it as its ? or assign default?
 
     }
 }

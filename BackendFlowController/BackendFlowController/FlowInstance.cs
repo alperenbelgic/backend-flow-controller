@@ -48,6 +48,21 @@ namespace BackendFlowController
 
                 action.Execute();
 
+                if (this.FlowData != null)
+                {
+                    var actionPropererties = action.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(FlowDataAttribute), true).Any());
+
+                    foreach (var actionProperty in actionPropererties)
+                    {
+                        var flowData = this.FlowData as IDictionary<string, object>;
+                        {
+                            var value = actionProperty.GetValue(action);
+
+                            flowData[actionProperty.Name] = value;
+                        }
+                    }
+                }
+
                 CreatedLogs.Add(
                     new FlowLog()
                     {
@@ -69,7 +84,7 @@ namespace BackendFlowController
         {
             if (this.FlowData != null)
             {
-                
+
                 var actionPropererties = action.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(FlowDataAttribute), true).Any());
 
                 foreach (var actionProperty in actionPropererties)
@@ -78,8 +93,8 @@ namespace BackendFlowController
                     if (flowData.ContainsKey(actionProperty.Name))
                     {
                         var valueInFlow = flowData[actionProperty.Name];
-
-                        if (actionProperty.PropertyType == valueInFlow.GetType())
+                        
+                        if (valueInFlow != null && actionProperty.PropertyType == valueInFlow.GetType())
                         {
                             actionProperty.SetValue(action, valueInFlow);
                         }
