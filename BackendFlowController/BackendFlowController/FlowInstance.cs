@@ -16,15 +16,14 @@ namespace BackendFlowController
         {
             var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
 
-            var sentEventInDefinition = currentStateInDefinition.Events.FirstOrDefault(e => e.Name == eventName);
+            var sentEventInDefinitionResult = currentStateInDefinition.GetEvent(eventName);
 
-            if (sentEventInDefinition == null)
+            if (false == sentEventInDefinitionResult.Succeeded)
             {
-                return new SendEventResult()
-                {
-                    Succeeded = false
-                };
+                return new SendEventResult(false);
             }
+
+            var sentEventInDefinition = sentEventInDefinitionResult.Event;
 
             var destinationState = sentEventInDefinition.DestinationState;
 
@@ -53,11 +52,7 @@ namespace BackendFlowController
                 CurrentState = destinationState;
             }
 
-            return new SendEventResult()
-            {
-                Succeeded = true,
-                CreatedLogs = CreatedLogs
-            };
+            return new SendEventResult(succeeded: true, createdLogs: CreatedLogs);
         }
     }
 }

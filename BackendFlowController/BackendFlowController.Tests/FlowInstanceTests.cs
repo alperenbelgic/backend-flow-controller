@@ -25,10 +25,9 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "State1",
-                        Events = new List<Event>()
+                    new State(
+                        name: "State1",
+                        events: new List<Event>()
                         {
                             new Event()
                             {
@@ -36,11 +35,12 @@ namespace BackendFlowController.Tests
                                 DestinationState = "State2"
                             }
                         }
-                    },
-                    new State()
+                        )
                     {
-                        Name = "State2"
-                    }
+
+
+                    },
+                    new State(name: "State2")
                 }
             };
 
@@ -56,7 +56,7 @@ namespace BackendFlowController.Tests
             Assert.AreEqual("State2", flowInstance.CurrentState);
 
         }
-        
+
         [TestAttribute]
         public void Event_Changes_Flow_Instances_State_2()
         {
@@ -65,10 +65,10 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "StateA",
-                        Events = new List<Event>()
+                    new State(
+                        name:"StateA",
+                        events:
+                        new List<Event>()
                         {
                             new Event()
                             {
@@ -76,11 +76,8 @@ namespace BackendFlowController.Tests
                                 DestinationState = "StateB"
                             }
                         }
-                    },
-                    new State()
-                    {
-                        Name = "StateB"
-                    }
+                        ),
+                    new State(name:"StateB")
                 }
             };
 
@@ -103,18 +100,18 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "StateA",
-                        Events = new List<Event>()
-                        {
-                            new Event()
-                            {
-                                Name = "EventA",
-                                DestinationState = "StateB"
-                            }
-                        }
-                    }
+                    new State(
+                                name: "StateA",
+                                events:
+                                new List<Event>()
+                                {
+                                    new Event()
+                                    {
+                                        Name = "EventA",
+                                        DestinationState = "StateB"
+                                    }
+                                }
+                        )
                 }
             };
 
@@ -128,8 +125,8 @@ namespace BackendFlowController.Tests
 
             Assert.AreEqual(false, result.Succeeded);
         }
-        
-        
+
+
         [TestAttribute]
         public void Event_Does_Not_Change_The_State()
         {
@@ -137,17 +134,17 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "State1",
-                        Events = new List<Event>()
-                        {
-                            new Event() 
-                            {
-                                Name = "Event1"
-                            }
-                        }
-                    }
+                    new State(
+                                name:"State1",
+                                events:
+                                new List<Event>()
+                                {
+                                    new Event()
+                                    {
+                                        Name = "Event1"
+                                    }
+                                }
+                              )
                 }
             };
 
@@ -158,7 +155,7 @@ namespace BackendFlowController.Tests
             };
 
             var result = flowInstance.SendEvent("Event1");
-            
+
             Assert.AreEqual("State1", flowInstance.CurrentState);
 
         }
@@ -171,21 +168,21 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "State1",
-                        Events = new List<Event>()
-                        {
-                            new Event() 
-                            {
-                                Name = "Event1",
-                                Actions = new List<IAction>()
+                    new State(
+                                name:"State1",
+                                events:
+                                new List<Event>()
                                 {
-                                    mockAction.Object
+                                    new Event()
+                                    {
+                                        Name = "Event1",
+                                        Actions = new List<IAction>()
+                                        {
+                                            mockAction.Object
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }
+                        )
                 }
             };
 
@@ -197,9 +194,9 @@ namespace BackendFlowController.Tests
 
             var result = flowInstance.SendEvent("Event1");
             mockAction.Verify(action => action.Execute());
-            
+
         }
-        
+
         [TestAttribute]
         public void Action_Execution_Creates_Logs()
         {
@@ -209,21 +206,21 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "State1",
-                        Events = new List<Event>()
-                        {
-                            new Event() 
-                            {
-                                Name = "Event1",
-                                Actions = new List<IAction>()
+                    new State(
+                                name:"State1",
+                                events:
+                                new List<Event>()
                                 {
-                                    mockAction.Object
+                                    new Event()
+                                    {
+                                        Name = "Event1",
+                                        Actions = new List<IAction>()
+                                        {
+                                            mockAction.Object
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }
+                        )
                 }
             };
 
@@ -234,11 +231,10 @@ namespace BackendFlowController.Tests
             };
 
             var result = flowInstance.SendEvent("Event1");
-            
+
             Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "Action_PostExecution"));
         }
 
-    
         [TestAttribute]
         public void There_Should_Be_No_Action_Log_If_No_Action_Executed()
         {
@@ -246,17 +242,17 @@ namespace BackendFlowController.Tests
             {
                 States = new List<State>()
                 {
-                    new State()
-                    {
-                        Name = "State1",
-                        Events = new List<Event>()
-                        {
-                            new Event() 
-                            {
-                                Name = "Event1"
-                            }
-                        }
-                    }
+                    new State(
+                        name: "State1",
+                        events:
+                                new List<Event>()
+                                {
+                                    new Event()
+                                    {
+                                        Name = "Event1"
+                                    }
+                                }
+                        )
                 }
             };
 
@@ -267,10 +263,12 @@ namespace BackendFlowController.Tests
             };
 
             var result = flowInstance.SendEvent("Event1");
-            
+
             Assert.IsFalse(result.CreatedLogs.Any(cl => cl.LogType == "ActionLog"));
         }
 
-    
+
+
+
     }
 }

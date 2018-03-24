@@ -4,13 +4,14 @@ namespace BackendFlowController
 {
     public class SendEventResult
     {
-        public SendEventResult()
+        public SendEventResult(bool succeeded, List<FlowLog> createdLogs = null)
         {
-            CreatedLogs = new List<FlowLog>();
+            this.Succeeded = succeeded;
+            CreatedLogs = createdLogs ?? new List<FlowLog>();
         }
-        
-        public bool? Succeeded { get; set; }
-        
-        public List<FlowLog> CreatedLogs { get; set; }
+
+        public bool Succeeded { get; private set; }
+
+        public List<FlowLog> CreatedLogs { get; private set; }
     }
 }
