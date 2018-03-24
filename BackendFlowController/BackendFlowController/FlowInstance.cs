@@ -22,20 +22,19 @@ namespace BackendFlowController
 
         public SendEventResult SendEvent(string eventName)
         {
-            var currentStateInDefinition = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
+            var currentState = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
 
-            var sentEventInDefinitionResult = currentStateInDefinition.GetEvent(eventName);
+            var currentEventResult = currentState.GetEvent(eventName);
 
-            if (false == sentEventInDefinitionResult.Succeeded)
+            if (false == currentEventResult.Succeeded)
             {
                 return new SendEventResult(false);
             }
 
-            var sentEventInDefinition = sentEventInDefinitionResult.Event;
+            var currentEvent = currentEventResult.Event;
 
-            var destinationState = sentEventInDefinition.DestinationState;
 
-            foreach (var action in sentEventInDefinition.Actions)
+            foreach (var action in currentEvent.Actions)
             {
                 CreatedLogs.Add(
                     new FlowLog()
@@ -48,20 +47,7 @@ namespace BackendFlowController
 
                 action.Execute();
 
-                if (this.FlowData != null)
-                {
-                    var actionPropererties = action.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(FlowDataAttribute), true).Any());
-
-                    foreach (var actionProperty in actionPropererties)
-                    {
-                        var flowData = this.FlowData as IDictionary<string, object>;
-                        {
-                            var value = actionProperty.GetValue(action);
-
-                            flowData[actionProperty.Name] = value;
-                        }
-                    }
-                }
+                AssignActionDataToFlow(action);
 
                 CreatedLogs.Add(
                     new FlowLog()
@@ -71,13 +57,34 @@ namespace BackendFlowController
                     });
             }
 
-            this.CurrentState = currentStateInDefinition.Name;
+            var destinationState = currentEvent.DestinationState;
+
+            this.CurrentState = currentState.Name;
+
             if (!String.IsNullOrWhiteSpace(destinationState))
             {
                 CurrentState = destinationState;
             }
 
             return new SendEventResult(succeeded: true, createdLogs: CreatedLogs);
+        }
+
+        private void AssignActionDataToFlow(IAction action)
+        {
+            if (this.FlowData != null)
+            {
+                var actionPropererties = action.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(FlowDataAttribute), true).Any());
+
+                foreach (var actionProperty in actionPropererties)
+                {
+                    var flowData = this.FlowData as IDictionary<string, object>;
+                    {
+                        var value = actionProperty.GetValue(action);
+
+                        flowData[actionProperty.Name] = value;
+                    }
+                }
+            }
         }
 
         private void AssignFlowDataToAction(IAction action)

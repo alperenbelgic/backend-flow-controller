@@ -265,7 +265,7 @@ namespace BackendFlowController.Tests
         [Test]
         public void Action_Can_Read_Flow_Data()
         {
-            string testText = "alperen";
+            string testText = "bebek";
             int testInt = 1;
 
             var flowDataReadingAction = new FlowDataReadingFakeAction();
@@ -370,6 +370,7 @@ namespace BackendFlowController.Tests
             Assert.AreEqual(stringTestData, flowData.SomeFlowData);
             Assert.AreEqual(intTestData, flowData.SomeFlowDataInt);
         }
+
 
         // test todo: action's properties should have the attribute
         // test todo: action's properties access modifiers?
