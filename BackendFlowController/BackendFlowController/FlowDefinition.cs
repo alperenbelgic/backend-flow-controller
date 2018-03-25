@@ -9,6 +9,11 @@ namespace BackendFlowController
             this.States = states;
         }
 
-        public List<State> States { get; private set; }
+        List<State> States { get; set; }
+
+        public List<State> GetStates()
+        {
+            return new List<State>(this.States);
+        }
     }
 }

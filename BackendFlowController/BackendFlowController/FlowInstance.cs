@@ -33,7 +33,7 @@ namespace BackendFlowController
 
         private void ValidateCurrentState()
         {
-            if (!this.FlowDefinition.States.Any(s => s.Name == this.CurrentState))
+            if (!this.FlowDefinition.GetStates().Any(s => s.Name == this.CurrentState))
             {
                 throw new FlowInstanceException();
             }
@@ -41,7 +41,7 @@ namespace BackendFlowController
 
         public SendEventResult SendEvent(string eventName)
         {
-            var currentState = this.FlowDefinition.States.FirstOrDefault(s => s.Name == this.CurrentState);
+            var currentState = this.FlowDefinition.GetStates().FirstOrDefault(s => s.Name == this.CurrentState);
 
             var getEventResult = currentState.GetEvent(eventName);
 
@@ -52,7 +52,7 @@ namespace BackendFlowController
 
             var currentEvent = getEventResult.Event;
 
-            foreach (var action in currentEvent.Actions)
+            foreach (var action in currentEvent.GetActions())
             {
                 CreatedLogs.Add(
                     new FlowLog()

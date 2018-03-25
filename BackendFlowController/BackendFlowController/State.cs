@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BackendFlowController
@@ -27,6 +28,11 @@ namespace BackendFlowController
         }
 
         public string Name { get; private set; }
+
+        public List<Event> GetEvents()
+        {
+            return new List<Event>(this.Events);
+        }
     }
 
     public class GetEventResult

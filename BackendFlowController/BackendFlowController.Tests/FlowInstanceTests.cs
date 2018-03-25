@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace BackendFlowController.Tests
 {
-    [TestFixtureAttribute]
+    [TestFixture]
     public class FlowInstanceTests
     {
-        [TestAttribute]
+        [Test]
         public void TestTest()
         {
             Assert.AreEqual(1, 1);
         }
 
-        [TestAttribute]
+        [Test]
         public void Event_Changes_Flow_Instances_State()
         {
 
@@ -51,7 +51,7 @@ namespace BackendFlowController.Tests
 
         }
 
-        [TestAttribute]
+        [Test]
         public void Event_Changes_Flow_Instances_State_2()
         {
 
@@ -84,7 +84,7 @@ namespace BackendFlowController.Tests
             Assert.AreEqual("StateB", flowInstance.CurrentState);
         }
 
-        [TestAttribute]
+        [Test]
         public void Undefined_Event_Returns_Unsuccessful_Result()
         {
             var flowDefinition = new FlowDefinition(
@@ -151,7 +151,7 @@ namespace BackendFlowController.Tests
         }
 
 
-        [TestAttribute]
+        [Test]
         public void Event_Does_Not_Change_The_State()
         {
             var flowDefinition = new FlowDefinition(
@@ -179,7 +179,7 @@ namespace BackendFlowController.Tests
             Assert.AreEqual("State1", flowInstance.CurrentState);
 
         }
-        [TestAttribute]
+        [Test]
         public void Event_Triggers_Action()
         {
             var mockAction = new Mock<IAction>();
@@ -214,7 +214,7 @@ namespace BackendFlowController.Tests
 
         }
 
-        [TestAttribute]
+        [Test]
         public void Action_Execution_Creates_Logs()
         {
             var mockAction = new Mock<IAction>();
@@ -250,7 +250,7 @@ namespace BackendFlowController.Tests
             Assert.IsTrue(result.CreatedLogs.Any(cl => cl.LogType == "Action_PostExecution"));
         }
 
-        [TestAttribute]
+        [Test]
         public void There_Should_Be_No_Action_Log_If_No_Action_Executed()
         {
             var flowDefinition = new FlowDefinition(
@@ -391,7 +391,7 @@ namespace BackendFlowController.Tests
                                                                                               }
                                                                                    )
                                                                     }
-                                                            )
+                                                             )
                                                     }
                                                    );
 
@@ -408,13 +408,7 @@ namespace BackendFlowController.Tests
         }
 
 
-        // test todo: action's properties should have the attribute
-        // test todo: action's properties access modifiers?
-        // test todo: if action's property and flow property matches, their types have to be same
-        // test todo: what if property hieararchy complicates. what if flow data has tree like property.property.property or property.list.etc. find these scenarions
-        // test todo: when there is not any data in flowData for a flowData property, what to do? keep it as its ? or assign default?
-        // test todo: action log logs action name
-        // test todo: action log logs time in UTC
+
 
     }
 }

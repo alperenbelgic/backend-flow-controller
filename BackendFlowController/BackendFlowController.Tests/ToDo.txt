@@ -1,0 +1,42 @@
+﻿- a rough life cycle of a send event request
+	- applicaton makes a request with	
+		- flow instance id
+		- event name
+		- user's flow data
+		- user id
+	- correct version of flow definition is retrieved
+	- flow instance data retrieved
+	- user's flow data is applied on flow instance data
+	- flow instance is created
+	- flow instance process the event 
+	- result is returned
+
+
+
+- how to define actions in json?
+- what are the options for actions
+	- answer: "inline code(limited)", "build-in", "custom action"
+	- I will start with "custom action", 
+- test todo: action's properties should have the attribute
+- test todo: action's properties access modifiers?
+- test todo: if action's property and flow property matches, their types have to be same
+- test todo: what if property hieararchy complicates. what if flow data has tree like property.property.property or property.list.etc. find these scenarions
+- test todo: when there is not any data in flowData for a flowData property, what to do? keep it as its ? or assign default?
+- test todo: action log logs action name
+- test todo: action log logs time in UTC
+
+
+
+random thoughts:
+- "state is entered" event might be introduced and triggered automatically when state changes. whenever an instance jumps another state, someactions can be triggered and the instance can jump to another state
+- selectively running actions and state jumps
+	- custom flow data definition can decide which actions are run and which state to jump.
+- user defined csharp scripts using flowdata context can be used for decision making
+- enable an action which makes http calls and expects a json result and get data if it's fields matches with flow model
+    - parameters can be static or flow's data
+
+
+- sample flow idea:
+    - a purchase process
+    - it will have different paths for different price or category 
+	bebek :m

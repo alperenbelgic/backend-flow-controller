@@ -11,7 +11,13 @@ namespace BackendFlowController
             this.DestinationState = destinationState;
         }
 
-        public List<IAction> Actions { get; private set; }
+        List<IAction> Actions { get; set; }
+
+        public List<IAction> GetActions()
+        {
+            return new List<IAction>(this.Actions);
+        }
+
         public string DestinationState { get; private set; }
         public string Name { get; private set; }
     }

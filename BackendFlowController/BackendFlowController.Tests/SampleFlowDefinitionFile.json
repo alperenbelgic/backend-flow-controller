@@ -1,0 +1,62 @@
+﻿{
+  "Name": "sample_flow",
+  "States": [
+    {
+      "Name": "State1",
+      "Events": [
+        {
+          "Name": "Event1",
+          "Actions": [
+            {
+              "Type": "Custom",
+              "FullQualifiedName": "namespace1.class1"
+            }
+          ],
+          "DestinationState": "State2"
+        },
+        {
+          "Name": "Event2",
+          "Actions": [
+            {
+              "Type": "BuildIn",
+              "Name": "SendNotification"
+            }
+          ],
+          "DestinationState": "State3"
+
+        }
+      ]
+    },
+    {
+      "Name": "State2",
+      "Events": [
+        {
+          "Name": "Event3",
+          "Actions": [
+            {
+              "Type": "Custom",
+              "FullQualifiedName": "namespace1.class1"
+            }
+          ],
+          "DestinationState": "State1"
+        },
+        {
+          "Name": "Event4",
+          "Actions": [
+            {
+              "Type": "BuildIn",
+              "Name": "SendNotification"
+            }
+          ],
+          "DestinationState": "State3"
+
+        }
+      ]
+    },
+    {
+      "Name": "State3",
+      "FinalStep": true
+    }
+  ]
+
+}
