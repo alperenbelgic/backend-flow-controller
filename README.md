@@ -7,8 +7,7 @@
 - to have full control over the rest of the iceberg
 - separating the API from UI ( or any other consumer )
 
-### Why? I mean really, why?
-#### These are some cases making me pissed off in my backend developer daily life:
+#### Some cases I try to avoid:
 - The software is not working, I do not know why. There is no message in UI or logging.
 - There is a feature/fix I should apply. I cannot find the code piece should be changed.
 - I really do not know how the application flows
